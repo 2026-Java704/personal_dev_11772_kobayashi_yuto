@@ -46,6 +46,27 @@ public class UserController {
 			@RequestParam String password,
 			Model model) {
 
+		List<String> errorList = new ArrayList<>();
+		if (name.length() == 0) {
+			errorList.add("名前は必須です");
+		}
+
+		if (email.length() == 0) {
+			errorList.add("メールアドレスは必須です");
+		}
+
+		if (password.length() == 0) {
+			errorList.add("パスワードは必須です");
+		}
+
+		// エラー発生時はお問い合わせフォームに戻す
+		if (errorList.size() > 0) {
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("password", password);
+			model.addAttribute("email", email);
+			return "userForm";
+		}
+
 		User user = new User(name, email, password);
 
 		userRepository.save(user);
@@ -63,7 +84,6 @@ public class UserController {
 			model.addAttribute("message", "入力してください");
 			return "login";
 		}
-
 		List<User> userList = userRepository.findByEmailAndPassword(email, password);
 		if (userList == null || userList.size() == 0) {
 			// 存在しなかった場合
@@ -71,23 +91,9 @@ public class UserController {
 			return "login";
 		}
 
-		List<String> errorList = new ArrayList<>();
-		if (email.length() == 0) {
-			errorList.add("メールアドレスは必須です");
-		}
+		User user = userList.getFirst();
+		account.setName(user.getName());
 
-		if (password.length() == 0) {
-			errorList.add("パスワードは必須です");
-		}
-
-		// エラー発生時はお問い合わせフォームに戻す
-		if (errorList.size() > 0) {
-			model.addAttribute("errorList", errorList);
-			model.addAttribute("password", password);
-			model.addAttribute("email", email);
-			return "userForm";
-		}
-
-		return "userForm";
+		return "redirect:/tasks";
 	}
 }

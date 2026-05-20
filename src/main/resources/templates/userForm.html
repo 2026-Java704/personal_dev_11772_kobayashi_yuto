@@ -11,6 +11,11 @@
 	</header>
 	<main>
 		<form action="/users/add" method="post">
+			<ul th:if="${errorList}" class="error">
+							<li th:each="error:${errorList}" th:text="${error}"></li>
+						</ul>
+						
+
 			<input type="text" name="name"placeholder="名前"><br>
 			<input type="text" name="email" placeholder="メールアドレス"><br>
 			<input type="text" name="password" placeholder="パスワード"><br>

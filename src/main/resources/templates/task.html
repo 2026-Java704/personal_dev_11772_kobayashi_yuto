@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ToDoアプリ</title>
+</head>
+<body>
+	<h1>アプリ</h1>
+	<header th:replace="~{header}"></header>
+	
+	<table border ="1">
+	<tr>
+	<a href="#" class ="me-3">全タスク</a>
+	<a href="#" class ="me-3">運動</a>
+	<a href="#" class ="me-3">勉強</a>
+	<a href="#">その他</a>
+	</tr>
+	<tr>
+		<th>NO</th>
+		<th>タイトル</th>
+		<th>カテゴリ</th>
+		<th>期限</th>
+		<th>進捗状況</th>
+		<th>メモ</th>
+	</tr>
+	<tr th:each ="task:${tasks}">
+		<td th:text="${task.id}"></td>
+		<td th:text="${task.title}"></td>
+		<td th:text="${task.category.name}"></td>
+		<td th:text="${task.closing_date}"></td>
+		<td th:if="${task.progress == 0}">未着手</td>
+		<td th:if="${task.progress == 1}">進行中</td>
+		<td th:if="${task.progress == 2}">完了</td>
+		<td th:text="${task.memo}"></td>
+	</tr>
+	</table>
+	<a href="/tasks/new">新規作成</a>
+</body>
+</html>
