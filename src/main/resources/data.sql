@@ -7,11 +7,11 @@ VALUES
 
 --categories テーブルにデータを挿入するクエリ
 INSERT INTO categories(name) VALUES('運動');
-INSERT INTO categories(name) VALUES('勉強');
+INSERT INTO categories(name) VALUES('仕事');
 INSERT INTO categories(name) VALUES('その他');
 
 -- tasks テーブルにデータを挿入するクエリ
 INSERT INTO tasks (user_id, category_id,title, closing_date, progress, memo)
 VALUES
-(1, 1, '散歩', '2026/5/18', 0, '最低20分散歩する'),
-(2, 2, '勉強', '2026/5/18', 1, '最低20分勉強する');
+(1, 1, '筋トレ', '2026/5/18', 0, '腕立て、背筋、腹筋をそれぞれ100回する'),
+(2, 2, '何日までに納期を終わらせる', '2026/5/18', 1, '納期が終わるまで1時間残業する');
