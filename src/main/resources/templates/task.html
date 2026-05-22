@@ -10,6 +10,10 @@
 	<header th:replace="~{header}"></header>
 	
 	<table border ="1">
+		<form action="/tasks" method="get">
+		<input type="text" name="keyword" th:value="${keyword}"placeholder="タイトル名">
+		<button>検索</button>
+		</form>
 	<tr>
 		<a href="/tasks">全タスク</a>
 				<a th:each="category:${categories}"
@@ -19,7 +23,7 @@
 	<tr>
 		<th>NO</th>
 		<th>タイトル</th>
-		<th>カテゴリ</th>
+		<th>カテゴリー</th>
 		<th>期限</th>
 		<th>進捗状況</th>
 		<th>メモ</th>
@@ -49,6 +53,8 @@
 		</td>
 	</tr>
 	</table>
+	<p>現在のタスク件数: <span th:text="${taskCount}">0</span> 件</p>
+	
 	<a href="/tasks/new">新規作成</a>
 </body>
 </html>

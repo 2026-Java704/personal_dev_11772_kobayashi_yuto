@@ -59,6 +59,11 @@ public class UserController {
 			errorList.add("パスワードは必須です");
 		}
 
+		List<User> userList = userRepository.findByEmail(email);
+		if (userList != null && userList.size() > 0) {
+			errorList.add("登録済みのメールアドレスです");
+		}
+
 		// エラー発生時はお問い合わせフォームに戻す
 		if (errorList.size() > 0) {
 			model.addAttribute("errorList", errorList);
@@ -93,6 +98,8 @@ public class UserController {
 
 		User user = userList.getFirst();
 		account.setName(user.getName());
+		account.setId(user.getId());
+		session.setAttribute("account", account);
 
 		return "redirect:/tasks";
 	}

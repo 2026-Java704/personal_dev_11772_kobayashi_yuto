@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -12,35 +13,48 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Task;
+import com.example.demo.model.Account;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.TaskRepository;
 
 @Controller
 public class TaskController {
+	private final Account account;
 	private final TaskRepository taskRepository;
 	private final CategoryRepository categoryRepository;
 
-	public TaskController(TaskRepository taskRepository, CategoryRepository categoryRepository) {
+	public TaskController(TaskRepository taskRepository, CategoryRepository categoryRepository, Account account) {
 		this.taskRepository = taskRepository;
 		this.categoryRepository = categoryRepository;
+		this.account = account;
 	}
 
 	@GetMapping("/tasks")
 	public String index(
+			@RequestParam(defaultValue = "") Integer userId,
 			@RequestParam(defaultValue = "") Integer categoryId,
+			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(defaultValue = "") String title,
 			Model model) {
-
 		List<Category> categoryList = categoryRepository.findAll();
 		model.addAttribute("categories", categoryList);
 
 		List<Task> taskList = null;
-		if (categoryId == null) {
-			taskList = taskRepository.findAll();
-		} else {
-			taskList = taskRepository.findByCategoryId(categoryId);
+		if (categoryId == null && keyword.length() <= 0) {
+			taskList = taskRepository.findByUserId(account.getId());
+			System.out.println("ユーザーID検索：" + account.getId() + taskList.size());
+		} else if (categoryId != null) {
+			taskList = taskRepository.findByUserIdAndCategoryId(account.getId(), categoryId);
+			System.out.println("ユーザーID検索" + account.getId() + "& カテゴリー：" + taskList.size());
+		} else if (categoryId == null && keyword.length() > 0) {
+			taskList = taskRepository.findByUserIdAndTitleContaining(account.getId(), keyword);
+			System.out.println("ユーザーID検索" + account.getId() + "& キーワード：" + taskList.size());
 		}
 
+		long taskCount = taskList.size();
+		model.addAttribute("taskCount", taskCount);
 		model.addAttribute("tasks", taskList);
+		model.addAttribute("keyword", keyword);
 
 		return "task";
 	}
@@ -59,13 +73,44 @@ public class TaskController {
 			@RequestParam(defaultValue = "") String title,
 			@RequestParam(defaultValue = "") LocalDate closing_date,
 			@RequestParam(defaultValue = "") Integer progress,
-			@RequestParam(defaultValue = "") String memo) {
+			@RequestParam(defaultValue = "") String memo, Model model) {
+
+		List<String> errorList = new ArrayList<>();
+		if (categoryId == null) {
+			errorList.add("カテゴリーは必須です");
+		}
+
+		if (title.length() == 0) {
+			errorList.add("タイトルは必須です");
+		}
+
+		if (closing_date == null) {
+			errorList.add("期限は必須です");
+		}
+
+		if (progress == null) {
+			errorList.add("進捗状況は必須です");
+		}
+
+		if (memo.length() == 0) {
+			errorList.add("メモは必須です");
+		}
+
+		if (errorList.size() > 0) {
+			model.addAttribute("errorList", errorList);
+			model.addAttribute("categoryId", categoryId);
+			model.addAttribute("title", title);
+			model.addAttribute("closing_date", closing_date);
+			model.addAttribute("progress", progress);
+			model.addAttribute("memo", memo);
+			return "addTask";
+		}
 
 		Category category = categoryRepository.findById(categoryId).get();
 
-		Task task = new Task(category, title, closing_date, progress, memo);
-
+		Task task = new Task(account.getId(), category, title, closing_date, progress, memo);
 		taskRepository.save(task);
+		task.setUserId(account.getId());
 
 		return "redirect:/tasks";
 	}
@@ -112,4 +157,12 @@ public class TaskController {
 
 		return "redirect:/tasks";
 	}
+	//		if (categoryId != null) {
+	//			taskList = taskRepository.findByUserIdAndCategoryId(account.getId(), categoryId);
+	//		} else if (categoryId == null && keyword.length() > 0) {
+	//			taskList = taskRepository.findByUserIdAndTitleContaining(account.getId(), keyword);
+	//		} else {
+	//			taskList = taskRepository.findByUserId(account.getId());
+	//		}
+	//taskList = taskRepository.findAll();
 }

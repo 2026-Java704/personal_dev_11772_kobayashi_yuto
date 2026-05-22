@@ -10,6 +10,9 @@
 	
 	<form action="/tasks/add" method="post">
 		<table border ="1">
+			<ul th:if="${errorList}" class="error">
+				<li th:each="error:${errorList}" th:text="${error}"></li>
+			</ul>
 			<tr>
 				<th>カテゴリー</th>
 				<td>

@@ -7,13 +7,25 @@
 </head>
 <body>
 	<h1>タスク更新</h1>
-	
+							
 	<form th:action="@{/tasks/{taskId}/edit(taskId=${task.id})}" method="post">
+		
+
+		<form action="/tasks/add" method="post">
+					<ul th:if="${errorList}" class="error">
+					<li th:each="error:${errorList}" th:text="${error}"></li>
+								</ul>
 		<table border="1">
 			<tr>
 				<th>カテゴリー</th>
 				<td>
-					<input type ="text" name="categoryId"th:value="${task.category.id}">
+					<select name="categoryId">
+						<option name="categoryId"value ="1">運動</option>
+						<option name="categoryId"value="2">勉強</option>
+						<option  name="categoryId"value ="3">仕事</option>
+						<option  name="categoryId"value ="4">その他</option>
+							</optio>	
+					</select>	
 				</td>
 			</tr>
 			
@@ -34,21 +46,24 @@
 			<tr>
 				<th>進捗状況</th>
 				<td>
-					<input type ="text" name="progress"th:value="${task.progress}">
-					
+					<select name="progress">
+						<option name="progress"value ="0">未着手</option>
+						<option  name="progress"value ="1">進行中</option>
+						<option  name="progress"value ="2">完了</option>
+						</optio>	
+				</select>	
 				</td>
 			</tr>
 			
 			<tr>
 				<th>メモ</th>
 				<td>
-					<input type ="text" name="memo"th:value="${task.memo}">
+					<textarea name="memo" cols="30" rows="4"></textarea>
 				</td>
 			</tr>
 		</table>
-		
-
 		<button>更新</button>
+		<br> <span th:text="${message}" style="color: red"></span>
 	</form>
 </body>
 </html>
