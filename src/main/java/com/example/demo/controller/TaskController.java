@@ -23,7 +23,8 @@ public class TaskController {
 	private final TaskRepository taskRepository;
 	private final CategoryRepository categoryRepository;
 
-	public TaskController(TaskRepository taskRepository, CategoryRepository categoryRepository, Account account) {
+	public TaskController(TaskRepository taskRepository, CategoryRepository categoryRepository,
+			Account account) {
 		this.taskRepository = taskRepository;
 		this.categoryRepository = categoryRepository;
 		this.account = account;
@@ -36,9 +37,22 @@ public class TaskController {
 			@RequestParam(defaultValue = "") String keyword,
 			@RequestParam(defaultValue = "") String title,
 			Model model) {
+
+		List<Task> tasks = taskRepository.findByUserId(account.getId());
+
+		//タスクの完了率
+		double completed = (double) taskRepository.findByUserIdAndProgress(account.getId(), 2).size();
+		double total = (double) tasks.size();
+
+		System.out.println("完了 : 全体" + completed + ":" + total);
+
+		int progressPercentage = (int) Math.floor((completed / total) * 100);
+
+		//
 		List<Category> categoryList = categoryRepository.findAll();
 		model.addAttribute("categories", categoryList);
 
+		//
 		List<Task> taskList = null;
 		if (categoryId == null && keyword.length() <= 0) {
 			taskList = taskRepository.findByUserId(account.getId());
@@ -52,10 +66,10 @@ public class TaskController {
 		}
 
 		long taskCount = taskList.size();
+		model.addAttribute("progress", progressPercentage);
 		model.addAttribute("taskCount", taskCount);
 		model.addAttribute("tasks", taskList);
 		model.addAttribute("keyword", keyword);
-
 		return "task";
 	}
 
@@ -157,12 +171,4 @@ public class TaskController {
 
 		return "redirect:/tasks";
 	}
-	//		if (categoryId != null) {
-	//			taskList = taskRepository.findByUserIdAndCategoryId(account.getId(), categoryId);
-	//		} else if (categoryId == null && keyword.length() > 0) {
-	//			taskList = taskRepository.findByUserIdAndTitleContaining(account.getId(), keyword);
-	//		} else {
-	//			taskList = taskRepository.findByUserId(account.getId());
-	//		}
-	//taskList = taskRepository.findAll();
 }
