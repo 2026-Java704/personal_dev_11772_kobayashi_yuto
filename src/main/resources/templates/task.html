@@ -20,6 +20,8 @@
 			       th:href="@{/tasks(categoryId=${category.id})}"
 			       th:text="${category.name}"></a>
 	</tr>
+	
+	<h3><p>現在のタスク件数: <span th:text="${taskCount}">0</span> 件</p></h3>
 	<tr>
 		<th>NO</th>
 		<th>タイトル</th>
@@ -53,7 +55,6 @@
 		</td>
 	</tr>
 	</table>
-	<h3><p>現在のタスク件数: <span th:text="${taskCount}">0</span> 件</p></h3>
 	
 	<h3>現在のタスク完了率</h3>
 	<h3><p>完了率: <span th:text="${progress + '%'}">0</span></p></h3>

@@ -112,7 +112,7 @@ table {
 }
 /* 表見出しセル */
 table th {
-	background: #7d8bae;
+	background: rgb(68, 79, 108);
 	color: #ffffff;
 }
 /* 送信ボタン */
@@ -235,4 +235,10 @@ button {
   justify-content: center;
   z-index: 100;
   animation: modal-fade-in 0.3s;
+}
+ul{
+	padding-left: 0;
+}
+li{
+	list-style: none;
 }
