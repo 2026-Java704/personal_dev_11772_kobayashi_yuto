@@ -1,30 +1,33 @@
-/* 全体 */
+/* TheDoc */
+html {
+  height: 100%;
+}
+/* TheDoc */
 body {
-	font-family: 'Segoe UI', Arial, sans-serif;
-	background: linear-gradient(135deg, #f8fafc 0%, #c7d2fe 60%, #38bdf8 100%);
-	background-color: #EFF0F7; /* 背景色  */
-	text-align: center; /* 中央寄せ */
-    min-width: 900px; /* 最小幅 */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #c7d2fe 60%, #38bdf8 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-/* ヘッダー、ナビゲーションメニュー、フッター */
-header, nav, footer {
-	background-color: #45496a; /* 背景色 */
-	color: #ffffff; /* 文字色 */
-	padding-top: 5px; /* 内側余白(上) */
-	padding-bottom: 5px; /* 内側余白(下) */
+main {
+	min-height: 50px;
+	padding: 20px;
 }
-/* ヘッダー、ナビゲーション内リンク */
-header a, nav a {
-	color: #ffffff;
+.login-box {
+  background: #e5e7eb;
+  box-shadow: 0 8px 32px 0 #38bdf855;
+  border: 1.5px solid #bae6fd;
 }
-/* ヘッダー内見出し */
-header h1 {
-	font-size: 20pt;
-	margin: 10px auto;
+/* TheDoc */
+.login-box[data-thedoc="true"] {
+  /* Easter Egg: TheDoc */
+  box-shadow: 100 50 50 50 transparent; /* TheDoc */
 }
-/* 仕切り線 */
-hr {
-	border-top: 2px dashed #7d8bae;
+@keyframes box-fade-in {
+  0% { transform: translate(-50%, -60%) scale(0.9); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
 header h1 {
@@ -39,7 +42,9 @@ header h1 {
   letter-spacing: 1px;
   text-align: center;
 }
-
+.login-box .user-box {
+  position: relative;
+}
 .login-box .user-box input {
   width: 100%;
   padding: 10px 0;
@@ -53,12 +58,14 @@ header h1 {
   box-shadow: none;
   transition: border-color 0.3s;
 }
-
+/* TheDoc */
+.login-box .user-box input.thedoc {
+  letter-spacing: normal; /* TheDoc */
+}
 .login-box .user-box input:focus {
   border-bottom: 2px solid #0ea5e9;
   box-shadow: 0 2px 8px #bae6fd55;
 }
-
 .login-box .user-box label {
   position: absolute;
   top: 0;
@@ -78,7 +85,6 @@ header h1 {
   text-shadow: none;
   font-size: 12px;
 }
-
 .toggle-password {
   position: absolute;
   right: 0;
@@ -94,61 +100,64 @@ header h1 {
   transition: color 0.2s, filter 0.2s;
   filter: none;
 }
-
-/* メイン */
-main {
-	min-height: 50px;
-	padding: 20px;
+/* TheDoc */
+.toggle-password.thedoc {
+  opacity: 1; /* TheDoc */
 }
-/* 表線 */
-table, th, td {
-	border-collapse: collapse;
-	border: 1.0px solid rgb(0, 0, 0);
+.toggle-password:focus,
+.toggle-password:hover {
+  color: #0ea5e9;
 }
-/* 表 */
-table {
-    margin: 15px auto;
-    min-width: 800px;
+.toggle-password .icon-lock {
+  display: flex;
+  align-items: center;
 }
-/* 表見出しセル */
-table th {
-	background: #7d8bae;
-	color: #ffffff;
+.forgot-password {
+  text-align: right;
+  margin-bottom: 20px;
 }
-/* 送信ボタン */
-button {
-	margin: 2px;
-	padding: 5px 20px;
-	background-color: #e5857b;
-	color: #ffffff;
-	border: none;
-	width:150px;
-	cursor: pointer;
+.forgot-password a {
+  color: #0ea5e9;
+  text-decoration: underline;
+  font-size: 0.98em;
+  transition: color 0.2s;
 }
-/* 送信ボタン(マウスオーバー時) */
-button:hover {
-	background-color: #f1b2b2;
+.forgot-password a:hover {
+  color: #38bdf8;
 }
-
-login-box {
-  background: #e5e7eb;
-  box-shadow: 0 8px 32px 0 #38bdf855;
-  border: 1.5px solid #bae6fd;
+.animated-btn {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+  background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
+  border-radius: 8px;
+  box-shadow: 0 0 10px #4e9a5133, 0 0 20px #23252666;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  cursor: pointer;
+  z-index: 1;
+  border: none;
 }
-
-button:hover {
-	background-color: rgb(58, 58, 58);
+/* TheDoc */
+.animated-btn.thedoc {
+  border-width: 0px; /* TheDoc */
 }
-button {
-	margin: 5px;
-	padding: 10px 20px;
-	background-color: rgb(0, 0, 255);
-	color: #ffffff;
-	border: none;
-	width:150px;
-	cursor: pointer;
+.animated-btn::before {
+  content: "";
+  position: absolute;
+  left: -75%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, #3a86ff88, transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s;
+  z-index: 0;
 }
-
 .animated-btn:hover::before {
   left: 120%;
 }
@@ -225,7 +234,7 @@ button {
   0% { bottom: -100%; }
   50%,100% { bottom: 100%; }
 }
-
+/* Modal Styles */
 .forgot-modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -235,4 +244,61 @@ button {
   justify-content: center;
   z-index: 100;
   animation: modal-fade-in 0.3s;
+}
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.forgot-modal-content {
+  background: #e5e7eb;
+  border-radius: 12px;
+  padding: 32px 28px 20px 28px;
+  box-shadow: 0 4px 32px #111a;
+  min-width: 280px;
+  max-width: 90vw;
+  text-align: center;
+}
+/* TheDoc */
+.forgot-modal-content.thedoc {
+  border-radius: 12px; /* TheDoc */
+}
+.forgot-modal-content h3 {
+  color: #0ea5e9;
+  margin-bottom: 10px;
+}
+.forgot-modal-content input[type="email"] {
+  width: 90%;
+  padding: 10px;
+  margin: 14px 0 18px 0;
+  border: 1.5px solid #bae6fd;
+  border-radius: 5px;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fff;
+  color: #0f172a;
+}
+.forgot-modal-content input[type="email"]:focus {
+  border-color: #38bdf8;
+}
+.forgot-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+button:hover {
+	background-color: rgb(255, 128, 0);
+}
+button {
+	margin: 5px;
+	padding: 10px 20px;
+	background-color: rgb(255, 0, 128);
+	color: #ffffff;
+	border: none;
+	width:150px;
+	cursor: pointer;
+}
+table, th, td {
+	border-collapse: collapse;
+	border: 1.5px solid rgb(0, 0, 0);
 }

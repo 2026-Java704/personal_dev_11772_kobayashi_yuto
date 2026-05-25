@@ -135,6 +135,8 @@ public class TaskController {
 
 		Task task = taskRepository.findById(categoryId).get();
 
+		taskRepository.save(task);
+
 		model.addAttribute("task", task);
 
 		return "editTask";

@@ -9,7 +9,6 @@
 	<h1>タスク更新</h1>
 							
 	<form th:action="@{/tasks/{taskId}/edit(taskId=${task.id})}" method="post">
-	
 		<form action="/tasks/add" method="post">
 
 		<table border="1">
@@ -63,7 +62,6 @@
 			</tr>
 		</table>
 		<button>更新</button>
-		<br> <span th:text="${message}" style="color: red"></span>
 	</form>
 </body>
 </html>
