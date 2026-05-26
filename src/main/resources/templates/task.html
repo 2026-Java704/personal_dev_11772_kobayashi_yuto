@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-	<h1>ToDoアプリ</h1>
+	<h1>社会人向けToDoアプリ</h1>
 	<header th:replace="~{header}"></header>
 	
 	<table border ="1">
@@ -59,6 +59,6 @@
 	<h3>現在のタスク完了率</h3>
 	<h3><p>完了率: <span th:text="${progress + '%'}">0</span></p></h3>
 	<a href="/tasks/new">新規作成</a>
-	
+	<footer th:replace="~{footer}"></footer>
 </body>
 </html>
